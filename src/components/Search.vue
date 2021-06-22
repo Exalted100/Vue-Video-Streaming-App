@@ -23,7 +23,6 @@ export default {
   },
   data() {
     return {
-        apiKey: "AIzaSyDV4CrnBqdxolhzpp0aMMRSnA-CXfMiHZo",
         searchValue: "",
         videos: [],
         videoPlaying: false
