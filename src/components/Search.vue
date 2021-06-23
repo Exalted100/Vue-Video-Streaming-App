@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <input type="text" name="search" placeholder="Search" id="" aria-label="search bar" v-model="searchValue">
+    <input type="text" name="search" placeholder="Search" id="" aria-label="search bar" v-model="searchValue" v-on:keyup.enter="makeVideoRequest">
     <button v-on:click="makeVideoRequest" aria-label="search submit button"><div class="image-container"><img src="../assets/search-line.svg" alt="search icon"></div></button>
   </div>
   <div class="playing-video-container" v-if="videoPlaying">
@@ -14,7 +14,9 @@
 <script>
 import axios from "axios"
 import VideoData from './VideoData.vue'
-import apiKey from "../keys.js"
+import key from "../keys.js"
+
+const apiKey = process.env.key || key
 
 export default {
   name: 'Search',
@@ -92,5 +94,11 @@ button {
 .playing-video-container {
     width: fit-content;
     margin: 1rem auto;
+}
+
+@media only screen and (max-width: 900px) {
+    .search-container {
+        display: none;
+    }
 }
 </style>

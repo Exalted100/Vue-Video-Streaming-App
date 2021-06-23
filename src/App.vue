@@ -1,5 +1,6 @@
 <template>
   <Search />
+  <h2>Only available on Desktop</h2>
 </template>
 
 <script>
@@ -20,5 +21,17 @@ export default {
   padding: 0;
   margin: 0;
   max-width: 100%;
+}
+
+h2 {
+  display: none;
+}
+
+@media only screen and (max-width: 900px) {
+  h2 {
+    display: block;
+    text-align: center;
+    padding-top: 5rem;
+  }
 }
 </style>
