@@ -14,9 +14,8 @@
 <script>
 import axios from "axios"
 import VideoData from './VideoData.vue'
-import key from "../keys.js"
 
-const apiKey = process.env.key || key
+const apiKey = process.env.key
 
 export default {
   name: 'Search',
