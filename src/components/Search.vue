@@ -3,11 +3,11 @@
     <input type="text" name="search" placeholder="Search" id="" aria-label="search bar" v-model="searchValue">
     <button v-on:click="makeVideoRequest" aria-label="search submit button"><div class="image-container"><img src="../assets/search-line.svg" alt="search icon"></div></button>
   </div>
-  <div v-show="videoPlaying">
-      <iframe width="1120" height="630" src="https://www.youtube.com/embed/D1e7EXHh8tg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="playing-video-container" v-if="videoPlaying">
+      <iframe width="1120" height="630" v-bind:src="'https://www.youtube.com/embed/' + selectedVideo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
   <div class="video-list-container">
-      <VideoData v-for="video in videos" v-bind:video="video" v-bind:key="video.id.videoId" ></VideoData>
+      <VideoData v-for="video in videos" v-bind:video="video" v-bind:key="video.id.videoId" v-on:click="playVideo(video)"></VideoData>
   </div>
 </template>
 
@@ -25,15 +25,22 @@ export default {
     return {
         searchValue: "",
         videos: [],
-        videoPlaying: false
+        videoPlaying: false,
+        selectedVideo: ""
     }
   },
   methods: {
       async makeVideoRequest() {
             const result = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${this.searchValue}&key=${apiKey}&maxResults=20&type=video&videoEmbeddable=true&videoDefinition=high`)
             this.videos = result.data.items
+            this.videoPlaying = false
             console.log(this.videos)
-          }
+          },
+        playVideo(video) {
+            this.selectedVideo = video.id.videoId
+            this.videoPlaying = true
+            console.log(this.selectedVideo)
+        }
       }
   }
 </script>
@@ -74,10 +81,16 @@ input::placeholder {
 button {
     height: 2rem;
     width: 3rem;
+    cursor: pointer;
 }
 
 .video-list-container {
     width: 70%;
     margin: 0 auto;
+}
+
+.playing-video-container {
+    width: fit-content;
+    margin: 1rem auto;
 }
 </style>
